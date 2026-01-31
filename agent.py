@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 from langchain_openai import ChatOpenAI
 from langchain_tavily import TavilySearch
-from langchain.tools import Tool
+from langchain.tools import tool
 from langchain.agents import create_react_agent, AgentExecutor
 from langchain import hub
 
@@ -24,13 +24,12 @@ llm = ChatOpenAI(
 # Step 2: Setup Tavily Tool
 tavily = TavilySearch(api_key=tavily_api_key)
 
-search_tool = Tool(
-    name="tavily_search",
-    func=tavily.run,
-    description="Search the web for up-to-date information",
-)
+@tool
+def tavily_search(query: str) -> str:
+    """Search the web for up-to-date information."""
+    return tavily.run(query)
 
-tools = [search_tool]
+tools = [tavily_search]
 
 
 # Step 3: Create ReAct Agent (NEW WAY)-
