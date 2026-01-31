@@ -4,8 +4,7 @@ from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_tavily import TavilySearch
 from langchain.tools import tool
-
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # Load keys
 load_dotenv()
@@ -30,8 +29,8 @@ def tavily_search(query: str) -> str:
 
 tools = [tavily_search]
 
-# ✅ Create ReAct agent using LangGraph
-agent = create_react_agent(llm, tools)
+# Create ReAct agent using LangGraph
+agent = create_agent(llm, tools)
 
 # Run loop
 while True:
